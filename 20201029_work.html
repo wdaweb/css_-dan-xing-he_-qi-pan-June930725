@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            font-family: '標楷體';
+            box-sizing: border-box;
+        }
+
+        /* 棋盤 80*80 */
+        .container {
+            width: 960px;
+            height: 1040px;
+            /* background: lavender; */
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            margin: auto;
+        }
+
+        .container::before {
+            content: '棋盤裡，車無輪，馬無韁，叫聲將軍提防提防';
+            font-size: 44px;
+            -webkit-writing-mode: vertical-lr;
+            writing-mode: vertical-lr;
+            word-wrap: break-word;
+            position: absolute;
+            top: 80px;
+            left: 10px;
+        }
+
+        .container::after {
+            content: '圖畫裡，龍不吟，虎不嘯，小小書僮可笑可笑';
+            font-size: 44px;
+            -webkit-writing-mode: vertical-lr;
+            writing-mode: vertical-lr;
+            word-wrap: break-word;
+            position: absolute;
+            top: 80px;
+            left: 890px;
+        }
+
+        .border {
+            width: 800px;
+            height: 880px;
+            border: 1px solid #000;
+            position: absolute;
+            top: 80px;
+            left: 0;
+            right: 0;
+            margin: auto;
+        }
+
+        table {
+            position: absolute;
+            top: 80px;
+            left: 80px;
+        }
+
+        table tr td {
+            width: 80px;
+            height: 80px;
+            border-top: 1px solid #000;
+            border-left: 1px solid #000;
+        }
+
+        table:last-child {
+            border-bottom: 1px solid #000;
+            border-right: 1px solid #000;
+        }
+
+        td {
+            font-size: 45px;
+            text-align: center;
+        }
+
+        /* 斜線 */
+        .line1-right-bottom::before {
+            content: '';
+            width: 80px;
+            height: 1px;
+            background-color: #000;
+            transform: rotateZ(45deg) scale(1.4);
+            position: absolute;
+            top: 40px;
+            left: 240px;
+        }
+
+        .line1-left-bottom::before {
+            content: '';
+            width: 80px;
+            height: 1px;
+            background-color: #000;
+            transform: rotateZ(-45deg) scale(1.4);
+            position: absolute;
+            top: 40px;
+            left: 320px;
+        }
+
+        .line1-right-bottom::after {
+            content: '';
+            width: 80px;
+            height: 1px;
+            background-color: #000;
+            transform: rotateZ(135deg) scale(1.4);
+            position: absolute;
+            top: 120px;
+            left: 240px;
+        }
+
+        .line1-left-bottom::after {
+            content: '';
+            width: 80px;
+            height: 1px;
+            background-color: #000;
+            transform: rotateZ(-135deg) scale(1.4);
+            position: absolute;
+            top: 120px;
+            left: 320px;
+        }
+
+        .line2-right-bottom::before {
+            content: '';
+            width: 80px;
+            height: 1px;
+            background-color: #000;
+            transform: rotateZ(45deg) scale(1.4);
+            position: absolute;
+            top: 600px;
+            left: 240px;
+        }
+
+        .line2-left-bottom::before {
+            content: '';
+            width: 80px;
+            height: 1px;
+            background-color: #000;
+            transform: rotateZ(-45deg) scale(1.4);
+            position: absolute;
+            top: 600px;
+            left: 320px;
+        }
+
+        .line2-right-bottom::after {
+            content: '';
+            width: 80px;
+            height: 1px;
+            background-color: #000;
+            transform: rotateZ(135deg) scale(1.4);
+            position: absolute;
+            top: 680px;
+            left: 240px;
+        }
+
+        .line2-left-bottom::after {
+            content: '';
+            width: 80px;
+            height: 1px;
+            background-color: #000;
+            transform: rotateZ(-135deg) scale(1.4);
+            position: absolute;
+            top: 680px;
+            left: 320px;
+        }
+
+        /* 黑色棋子 */
+        .chessB-1::before {
+            content: '將';
+            line-height: 60px;
+            width: 60px;
+            height: 60px;
+            border: 1px solid #000;
+            border-radius: 50%;
+            background: #fff;
+            position: absolute;
+            top: -30px;
+            left: 290px;
+            z-index: 1;
+        }
+        .chessB-2::before {
+            content: '士';
+            line-height: 60px;
+            width: 60px;
+            height: 60px;
+            border: 1px solid #000;
+            border-radius: 50%;
+            background: #fff;
+            position: absolute;
+            top: -30px;
+            left: 210px;
+            z-index: 1;
+        }
+        .chessB-2::after {
+            content: '士';
+            line-height: 60px;
+            width: 60px;
+            height: 60px;
+            border: 1px solid #000;
+            border-radius: 50%;
+            background: #fff;
+            position: absolute;
+            top: -30px;
+            right: 210px;
+            z-index: 1;
+        }
+        .chessB-3::before {
+            content: '象';
+            line-height: 60px;
+            width: 60px;
+            height: 60px;
+            border: 1px solid #000;
+            border-radius: 50%;
+            background: #fff;
+            position: absolute;
+            top: -30px;
+            left: 130px;
+            z-index: 1;
+        }
+        .chessB-3::after {
+            content: '象';
+            line-height: 60px;
+            width: 60px;
+            height: 60px;
+            border: 1px solid #000;
+            border-radius: 50%;
+            background: #fff;
+            position: absolute;
+            top: -30px;
+            right: 130px;
+            z-index: 1;
+        }
+        .chessB-4::before {
+            content: '車';
+            line-height: 60px;
+            width: 60px;
+            height: 60px;
+            border: 1px solid #000;
+            border-radius: 50%;
+            background: #fff;
+            position: absolute;
+            top: -30px;
+            left: -30px;
+            z-index: 1;
+        }
+        .chessB-4::after {
+            content: '車';
+            line-height: 60px;
+            width: 60px;
+            height: 60px;
+            border: 1px solid #000;
+            border-radius: 50%;
+            background: #fff;
+            position: absolute;
+            top: -30px;
+            right: -30px;
+            z-index: 1;
+        }
+        .chessB-5::before {
+            content: '馬';
+            line-height: 60px;
+            width: 60px;
+            height: 60px;
+            border: 1px solid #000;
+            border-radius: 50%;
+            background: #fff;
+            position: absolute;
+            top: -30px;
+            left: 50px;
+            z-index: 1;
+        }
+        .chessB-5::after {
+            content: '馬';
+            line-height: 60px;
+            width: 60px;
+            height: 60px;
+            border: 1px solid #000;
+            border-radius: 50%;
+            background: #fff;
+            position: absolute;
+            top: -30px;
+            right: 50px;
+            z-index: 1;
+        }
+        .chessB-6::before {
+            content: '包';
+            line-height: 60px;
+            width: 60px;
+            height: 60px;
+            border: 1px solid #000;
+            border-radius: 50%;
+            background: #fff;
+            position: absolute;
+            top: 130px;
+            left: 50px;
+            z-index: 1;
+        }
+        .chessB-6::after {
+            content: '包';
+            line-height: 60px;
+            width: 60px;
+            height: 60px;
+            border: 1px solid #000;
+            border-radius: 50%;
+            background: #fff;
+            position: absolute;
+            top: 130px;
+            right: 50px;
+            z-index: 1;
+        }
+        .chessB-7-1::before {
+            content: '卒';
+            line-height: 60px;
+            width: 60px;
+            height: 60px;
+            border: 1px solid #000;
+            border-radius: 50%;
+            background: #fff;
+            position: absolute;
+            top: 210px;
+            left: -30px;
+            z-index: 1;
+        }
+        .chessB-7-1::after {
+            content: '卒';
+            line-height: 60px;
+            width: 60px;
+            height: 60px;
+            border: 1px solid #000;
+            border-radius: 50%;
+            background: #fff;
+            position: absolute;
+            top: 210px;
+            right: -30px;
+            z-index: 1;
+        }
+        .chessB-7-2::before {
+            content: '卒';
+            line-height: 60px;
+            width: 60px;
+            height: 60px;
+            border: 1px solid #000;
+            border-radius: 50%;
+            background: #fff;
+            position: absolute;
+            top: 210px;
+            left: 130px;
+            z-index: 1;
+        }
+        .chessB-7-2::after {
+            content: '卒';
+            line-height: 60px;
+            width: 60px;
+            height: 60px;
+            border: 1px solid #000;
+            border-radius: 50%;
+            background: #fff;
+            position: absolute;
+            top: 210px;
+            right: 130px;
+            z-index: 1;
+        }
+        .chessB-7-3::before {
+            content: '卒';
+            line-height: 60px;
+            width: 60px;
+            height: 60px;
+            border: 1px solid #000;
+            border-radius: 50%;
+            background: #fff;
+            position: absolute;
+            top: 210px;
+            left: 290px;
+            z-index: 1;
+        }
+        /* 紅色棋子 */
+        .chessR-1::before {
+            content: '帥';
+            color:red;
+            line-height: 60px;
+            width: 60px;
+            height: 60px;
+            border: 1px solid #000;
+            border-radius: 50%;
+            background: #fff;
+            position: absolute;
+            top: 690px;
+            left: 290px;
+            z-index: 1;
+        }
+        .chessR-2::before {
+            content: '仕';
+            color:red;
+            line-height: 60px;
+            width: 60px;
+            height: 60px;
+            border: 1px solid #000;
+            border-radius: 50%;
+            background: #fff;
+            position: absolute;
+            top: 690px;
+            left: 210px;
+            z-index: 1;
+        }
+        .chessR-2::after {
+            content: '仕';
+            color:red;
+            line-height: 60px;
+            width: 60px;
+            height: 60px;
+            border: 1px solid #000;
+            border-radius: 50%;
+            background: #fff;
+            position: absolute;
+            top: 690px;
+            right: 210px;
+            z-index: 1;
+        }
+        .chessR-3::before {
+            content: '相';
+            color:red;
+            line-height: 60px;
+            width: 60px;
+            height: 60px;
+            border: 1px solid #000;
+            border-radius: 50%;
+            background: #fff;
+            position: absolute;
+            top: 690px;
+            left: 130px;
+            z-index: 1;
+        }
+        .chessR-3::after {
+            content: '相';
+            color:red;
+            line-height: 60px;
+            width: 60px;
+            height: 60px;
+            border: 1px solid #000;
+            border-radius: 50%;
+            background: #fff;
+            position: absolute;
+            top: 690px;
+            right: 130px;
+            z-index: 1;
+        }
+        .chessR-4::before {
+            content: '俥';
+            color:red;
+            line-height: 60px;
+            width: 60px;
+            height: 60px;
+            border: 1px solid #000;
+            border-radius: 50%;
+            background: #fff;
+            position: absolute;
+            top: 690px;
+            left: -30px;
+            z-index: 1;
+        }
+        .chessR-4::after {
+            content: '俥';
+            color:red;
+            line-height: 60px;
+            width: 60px;
+            height: 60px;
+            border: 1px solid #000;
+            border-radius: 50%;
+            background: #fff;
+            position: absolute;
+            top: 690px;
+            right: -30px;
+            z-index: 1;
+        }
+        .chessR-5::before {
+            content: '傌';
+            color:red;
+            line-height: 60px;
+            width: 60px;
+            height: 60px;
+            border: 1px solid #000;
+            border-radius: 50%;
+            background: #fff;
+            position: absolute;
+            top: 690px;
+            left: 50px;
+            z-index: 1;
+        }
+        .chessR-5::after {
+            content: '傌';
+            color:red;
+            line-height: 60px;
+            width: 60px;
+            height: 60px;
+            border: 1px solid #000;
+            border-radius: 50%;
+            background: #fff;
+            position: absolute;
+            top: 690px;
+            right: 50px;
+            z-index: 1;
+        }
+        .chessR-6::before {
+            content: '炮';
+            color:red;
+            line-height: 60px;
+            width: 60px;
+            height: 60px;
+            border: 1px solid #000;
+            border-radius: 50%;
+            background: #fff;
+            position: absolute;
+            top: 530px;
+            left: 50px;
+            z-index: 1;
+        }
+        .chessR-6::after {
+            content: '炮';
+            color:red;
+            line-height: 60px;
+            width: 60px;
+            height: 60px;
+            border: 1px solid #000;
+            border-radius: 50%;
+            background: #fff;
+            position: absolute;
+            top: 530px;
+            right: 50px;
+            z-index: 1;
+        }
+        .chessR-7-1::before {
+            content: '兵';
+            color:red;
+            line-height: 60px;
+            width: 60px;
+            height: 60px;
+            border: 1px solid #000;
+            border-radius: 50%;
+            background: #fff;
+            position: absolute;
+            top: 450px;
+            left: -30px;
+            z-index: 1;
+        }
+        .chessR-7-1::after {
+            content: '兵';
+            color:red;
+            line-height: 60px;
+            width: 60px;
+            height: 60px;
+            border: 1px solid #000;
+            border-radius: 50%;
+            background: #fff;
+            position: absolute;
+            top: 450px;
+            right: -30px;
+            z-index: 1;
+        }
+        .chessR-7-2::before {
+            content: '兵';
+            color:red;
+            line-height: 60px;
+            width: 60px;
+            height: 60px;
+            border: 1px solid #000;
+            border-radius: 50%;
+            background: #fff;
+            position: absolute;
+            top: 450px;
+            left: 130px;
+            z-index: 1;
+        }
+        .chessR-7-2::after {
+            content: '兵';
+            color:red;
+            line-height: 60px;
+            width: 60px;
+            height: 60px;
+            border: 1px solid #000;
+            border-radius: 50%;
+            background: #fff;
+            position: absolute;
+            top: 450px;
+            right: 130px;
+            z-index: 1;
+        }
+        .chessR-7-3::before {
+            content: '兵';
+            color:red;
+            line-height: 60px;
+            width: 60px;
+            height: 60px;
+            border: 1px solid #000;
+            border-radius: 50%;
+            background: #fff;
+            position: absolute;
+            top: 450px;
+            left: 290px;
+            z-index: 1;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="border">
+            <div class="chessboard">
+                <table cellpadding='0' cellspacing='0'>
+                    <tr>
+                        <td class="chessB-4"></td>
+                        <td class="chessB-5"></td>
+                        <td class="chessB-3"></td>
+                        <td class="line1-right-bottom"></td>
+                        <td class="line1-left-bottom"></td>
+                        <td class="chessB-2"></td>
+                        <td></td>
+                        <td class="chessB-1"></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td class="chessB-6"></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td class="chessB-7-1"></td>
+                        <td></td>
+                        <td class="chessB-7-2"></td>
+                        <td class="chessB-7-3"></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td colspan="8">
+                            <span>楚河　　　　　漢界</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="chessR-7-1"></td>
+                        <td></td>
+                        <td class="chessR-7-2"></td>
+                        <td class="chessR-7-3"></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td class="chessR-6"></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td class="line2-right-bottom"></td>
+                        <td class="line2-left-bottom"></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td class="chessR-4"></td>
+                        <td class="chessR-5"></td>
+                        <td class="chessR-3"></td>
+                        <td></td>
+                        <td></td>
+                        <td class="chessR-2"></td>
+                        <td></td>
+                        <td class="chessR-1"></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</body>
+
+</html>
