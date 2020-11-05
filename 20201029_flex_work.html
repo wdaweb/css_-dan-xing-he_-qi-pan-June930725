@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            font-family: '標楷體';
+            box-sizing: border-box;
+        }
+
+        /* 棋盤 80*80 */
+        .container {
+            width: 960px;
+            height: 1040px;
+            /* background: lavender; */
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            margin: auto;
+        }
+
+        .container::before {
+            content: '棋盤裡，車無輪，馬無韁，叫聲將軍提防提防';
+            font-size: 44px;
+            -webkit-writing-mode: vertical-lr;
+            writing-mode: vertical-lr;
+            word-wrap: break-word;
+            position: absolute;
+            top: 80px;
+            left: 10px;
+        }
+
+        .container::after {
+            content: '圖畫裡，龍不吟，虎不嘯，小小書僮可笑可笑';
+            font-size: 44px;
+            -webkit-writing-mode: vertical-lr;
+            writing-mode: vertical-lr;
+            word-wrap: break-word;
+            position: absolute;
+            top: 80px;
+            left: 890px;
+        }
+
+        .border {
+            width: 800px;
+            height: 880px;
+            border: 1px solid #000;
+            position: absolute;
+            top: 80px;
+            left: 0;
+            right: 0;
+            margin: auto;
+        }
+
+        table {
+            position: absolute;
+            top: 80px;
+            left: 80px;
+        }
+
+        table tr td {
+            width: 80px;
+            height: 80px;
+            border-top: 1px solid #000;
+            border-left: 1px solid #000;
+        }
+
+        table:last-child {
+            border-bottom: 1px solid #000;
+            border-right: 1px solid #000;
+        }
+
+        td {
+            font-size: 45px;
+            text-align: center;
+        }
+
+        /* 斜線 */
+        .line1-right-bottom::before {
+            content: '';
+            width: 80px;
+            height: 1px;
+            background-color: #000;
+            transform: rotateZ(45deg) scale(1.4);
+            position: absolute;
+            top: 40px;
+            left: 240px;
+        }
+
+        .line1-left-bottom::before {
+            content: '';
+            width: 80px;
+            height: 1px;
+            background-color: #000;
+            transform: rotateZ(-45deg) scale(1.4);
+            position: absolute;
+            top: 40px;
+            left: 320px;
+        }
+
+        .line1-right-bottom::after {
+            content: '';
+            width: 80px;
+            height: 1px;
+            background-color: #000;
+            transform: rotateZ(135deg) scale(1.4);
+            position: absolute;
+            top: 120px;
+            left: 240px;
+        }
+
+        .line1-left-bottom::after {
+            content: '';
+            width: 80px;
+            height: 1px;
+            background-color: #000;
+            transform: rotateZ(-135deg) scale(1.4);
+            position: absolute;
+            top: 120px;
+            left: 320px;
+        }
+
+        .line2-right-bottom::before {
+            content: '';
+            width: 80px;
+            height: 1px;
+            background-color: #000;
+            transform: rotateZ(45deg) scale(1.4);
+            position: absolute;
+            top: 600px;
+            left: 240px;
+        }
+
+        .line2-left-bottom::before {
+            content: '';
+            width: 80px;
+            height: 1px;
+            background-color: #000;
+            transform: rotateZ(-45deg) scale(1.4);
+            position: absolute;
+            top: 600px;
+            left: 320px;
+        }
+
+        .line2-right-bottom::after {
+            content: '';
+            width: 80px;
+            height: 1px;
+            background-color: #000;
+            transform: rotateZ(135deg) scale(1.4);
+            position: absolute;
+            top: 680px;
+            left: 240px;
+        }
+
+        .line2-left-bottom::after {
+            content: '';
+            width: 80px;
+            height: 1px;
+            background-color: #000;
+            transform: rotateZ(-135deg) scale(1.4);
+            position: absolute;
+            top: 680px;
+            left: 320px;
+        }
+        /* 第一層 */
+        .first{
+            width: 700px;
+            height: 60px;
+            /* background: turquoise; */
+            position: absolute;
+            top: 50px;
+            left: 50px;
+            display: flex;
+            justify-content: space-between;
+            z-index: 1;
+        }
+        /* 第二層 */
+        .second {
+            width: 540px;
+            height: 60px;
+            /* background: turquoise; */
+            position: absolute;
+            top: 210px;
+            left: 130px;
+            display: flex;
+            justify-content: space-between;
+            z-index: 1;
+        }
+        /* 第三層 */
+        .third {
+            width: 700px;
+            height: 60px;
+            /* background: turquoise; */
+            position: absolute;
+            top: 290px;
+            left: 50px;
+            display: flex;
+            justify-content: space-between;
+            z-index: 1;
+        }
+        /* 第四層 */
+        .fourth {
+            width: 700px;
+            height: 60px;
+            /* background: turquoise; */
+            position: absolute;
+            top: 770px;
+            left: 50px;
+            display: flex;
+            justify-content: space-between;
+            z-index: 1;
+        }
+        /* 第五層 */
+        .fifth {
+            width: 540px;
+            height: 60px;
+            /* background: turquoise; */
+            position: absolute;
+            top: 610px;
+            left: 130px;
+            display: flex;
+            justify-content: space-between;
+            z-index: 1;
+        }
+        /* 第六層 */
+        .sixth {
+            width: 700px;
+            height: 60px;
+            /* background: turquoise; */
+            position: absolute;
+            top: 530px;
+            left: 50px;
+            display: flex;
+            justify-content: space-between;
+            z-index: 1;
+        }
+
+        /* 黑色棋子 */
+        .circle-b {
+            width: 60px;
+            height: 60px;
+            font-size: 2.7rem;
+            text-align: center;
+            line-height: 60px;
+            color: #000;
+            background: white;
+            border: 1px solid #000;
+            border-radius: 50%;
+        }
+        
+        /* 紅色棋子 */
+        .circle-r {
+            width: 60px;
+            height: 60px;
+            font-size: 2.7rem;
+            text-align: center;
+            line-height: 60px;
+            color: red;
+            background: white;
+            border: 1px solid #000;
+            border-radius: 50%;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="border">
+            <div class="chess">
+                <!-- 黑色棋子 -->
+                <div class="first">
+                    <div class="circle-b">車</div>
+                    <div class="circle-b">馬</div>
+                    <div class="circle-b">象</div>
+                    <div class="circle-b">士</div>
+                    <div class="circle-b">將</div>
+                    <div class="circle-b">士</div>
+                    <div class="circle-b">象</div>
+                    <div class="circle-b">馬</div>
+                    <div class="circle-b">車</div>
+                </div>
+                <div class="second">
+                    <div class="circle-b">包</div>
+                    <div class="circle-b">包</div>
+                </div>
+                <div class="third">
+                    <div class="circle-b">卒</div>
+                    <div class="circle-b">卒</div>
+                    <div class="circle-b">卒</div>
+                    <div class="circle-b">卒</div>
+                    <div class="circle-b">卒</div>
+                </div>
+                
+                <!-- 紅色棋子 -->
+                <div class="fourth">
+                    <div class="circle-r">俥</div>
+                    <div class="circle-r">傌</div>
+                    <div class="circle-r">相</div>
+                    <div class="circle-r">仕</div>
+                    <div class="circle-r">帥</div>
+                    <div class="circle-r">仕</div>
+                    <div class="circle-r">相</div>
+                    <div class="circle-r">傌</div>
+                    <div class="circle-r">俥</div>
+                </div>
+                <div class="fifth">
+                    <div class="circle-r">炮</div>
+                    <div class="circle-r">炮</div>
+                </div>
+                <div class="sixth">
+                    <div class="circle-r">兵</div>
+                    <div class="circle-r">兵</div>
+                    <div class="circle-r">兵</div>
+                    <div class="circle-r">兵</div>
+                    <div class="circle-r">兵</div>
+                </div>
+            </div>
+            <div class="chessboard">
+                <table cellpadding='0' cellspacing='0'>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td class="line1-right-bottom"></td>
+                        <td class="line1-left-bottom"></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td colspan="8">
+                            <span>楚河　　　　　漢界</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td class="line2-right-bottom"></td>
+                        <td class="line2-left-bottom"></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</body>
+
+</html>
